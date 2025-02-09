@@ -65,14 +65,35 @@ function listBooks(booksObject) {
 
   // Add complete button, delet button, edit button, and uncomplete button
   if (booksObject.isCompleted) {
-        const uncompleteButton = document.createElement("button");
-        uncompleteButton.innerText = "Belum Selesai Dibaca";
+    const uncompleteButton = document.createElement("button");
+    uncompleteButton.innerText = "Belum Selesai Dibaca";
 
-        uncompleteButton.addEventListener("click", function () {
-          markAsUncompleted(booksObject.id);
-        });
+    uncompleteButton.addEventListener("click", function () {
+      markAsUncompleted(booksObject.id);
+    });
 
-        itemBooksWrapper.append(uncompleteButton);
+    // Make delete book button
+    const deleteButton = document.createElement("button");
+    deleteButton.setAttribute("data-testid", "bookItemDeleteButton");
+    deleteButton.innerText = "Hapus Buku";
+
+    deleteButton.addEventListener("click", function () {
+      markBookToDelete(booksObject.id);
+    });
+
+    //Make edit book button
+    const editButton = document.createElement("button");
+    editButton.innerText = "Edit Buku";
+    editButton.setAttribute("data-testid", "bookItemEditButton");
+
+    editButton.addEventListener("click", function () {
+      bookToEdit(booksObject.id);
+    });
+
+    const buttonWrapper = document.createElement("div");
+    buttonWrapper.append(uncompleteButton, deleteButton, editButton);
+
+    itemBooksWrapper.append(buttonWrapper); 
   } else {
     // Make complete button
     const completeButton = document.createElement("button");
@@ -113,16 +134,26 @@ function listBooks(booksObject) {
 // Make complete button function
 function markBookAsComplete(bookId) {
   const bookTarget = findBook(bookId);
-  
+
   if (bookTarget == null) return;
 
   bookTarget.isCompleted = true;
-  document, dispatchEvent(new Event(RENDER_EVENT));
+  document.dispatchEvent(new Event(RENDER_EVENT));
+}
+
+// Make uncompleted button
+function markAsUncompleted(bookId) {
+  const bookTarget = findBook(bookId);
+
+  if (bookTarget == null) return;
+
+  bookTarget.isCompleted = false;
+  document.dispatchEvent(new Event(RENDER_EVENT));
 }
 
 function findBook(bookId) {
-  for (const bookItem in books) {
-    if (bookItem.id == bookId) {
+  for (const bookItem of books) {
+    if (bookItem.id === bookId) {
       return bookItem;
     }
   }
@@ -130,11 +161,31 @@ function findBook(bookId) {
 }
 
 // Make delete button function
+function markBookToDelete(bookId) {
+  const todoTarget = findBookIndex(bookId);
+
+  if (todoTarget === -1) return;
+
+  books.splice(todoTarget, 1);
+  document.dispatchEvent(new Event(RENDER_EVENT));
+}
+
+function findBookIndex(bookId) {
+  for (const index in books) {
+    if (books[index].id === bookId) {
+      return index;
+    }
+  }
+  return -1;
+}
 
 // All button activities
 document.addEventListener(RENDER_EVENT, function () {
-  const unreadBooks = document.getElementById("incompleteBookList"); 
+  const unreadBooks = document.getElementById("incompleteBookList");
+  unreadBooks.innerHTML = "";
+
   const readBooks = document.getElementById("completeBookList");
+  readBooks.innerText = "";
 
   for (const bookItem of books) {
     const bookElement = listBooks(bookItem);
