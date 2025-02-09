@@ -1,5 +1,38 @@
 const books = [];
 const RENDER_EVENT = "render=books";
+const EVENT_SAVED = 'books-saved';
+const KEY_VALUE = 'books_key';
+
+// Check if browser support local storage
+function storageExisted() {
+  if (typeof (Storage) === undefined) {
+    alert('Browser not support local storage');
+    return false;
+  }
+  return true;
+}
+
+// Configuration local storage
+function saveAction() {
+  if (storageExisted()) {
+    const parsed = JSON.stringify(books);
+    localStorage.setItem(KEY_VALUE, parsed);
+    document.dispatchEvent(new Event(EVENT_SAVED));
+  }
+}
+
+// Keep displaying books after reload
+function displayDataStorage() {
+  const serializedData = localStorage.getItem(KEY_VALUE);
+  let data = JSON.parse(serializedData);
+
+  if (data !== null) {
+    for (const book of data) {
+      books.push(book);
+    }
+  }
+  document.dispatchEvent(new Event(RENDER_EVENT));
+}
 
 // Make submit button not reload the page
 document.addEventListener("DOMContentLoaded", function () {
@@ -8,6 +41,10 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
     addBooks();
   });
+
+  if (storageExisted()) {
+    displayDataStorage();
+  }
 });
 
 // Add book to the list
@@ -26,6 +63,7 @@ function addBooks() {
   books.push(booksObject);
 
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveAction();
 }
 
 // Generate unique id for each book
@@ -139,6 +177,7 @@ function markBookAsComplete(bookId) {
 
   bookTarget.isCompleted = true;
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveAction();
 }
 
 // Make uncompleted button
@@ -149,6 +188,7 @@ function markAsUncompleted(bookId) {
 
   bookTarget.isCompleted = false;
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveAction();
 }
 
 function findBook(bookId) {
@@ -168,6 +208,7 @@ function markBookToDelete(bookId) {
 
   books.splice(todoTarget, 1);
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveAction();
 }
 
 function findBookIndex(bookId) {
