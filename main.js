@@ -45,33 +45,100 @@ function generateBookObject(id, title, author, year, isCompleted) {
 }
 
 // Make container in html for books
-// function listBooks(booksObject) {
-//     const titleBooks = document.createElement('h3');
-//     titleBooks.innerText = booksObject.title;
+function listBooks(booksObject) {
+  const titleBooks = document.createElement("h3");
+  titleBooks.setAttribute("data-testid", "bookItemTitle");
+  titleBooks.innerText = `Judul ${booksObject.title}`;
 
-//     const authorBooks = document.createElement('p');
-//     authorBooks.innerText = booksObject.author;
+  const authorBooks = document.createElement("p");
+  authorBooks.setAttribute("data-testid", "bookItemAuthor");
+  authorBooks.innerText = `Penulis: ${booksObject.author}`;
 
-//     const yearBooks = document.createElement('p');
-//     yearBooks.innerText = booksObject.year;
+  const yearBooks = document.createElement("p");
+  yearBooks.setAttribute("data-testid", "bookItemYear");
+  yearBooks.innerText = `Tahun: ${booksObject.year}`;
 
-//     const itemContainerBooks = document.createElement('div');
-//     itemContainerBooks.classList.add('data-bookid', 'data-testid');
-//     itemContainerBooks.append(titleBooks, authorBooks, yearBooks);
+  const itemBooksWrapper = document.createElement("div");
+  itemBooksWrapper.setAttribute("data-bookid", `${booksObject.id}`);
+  itemBooksWrapper.setAttribute("data-testid", "bookItem");
+  itemBooksWrapper.append(titleBooks, authorBooks, yearBooks);
 
-//     // Add finish reading, delete books, and edit books
-//     if (booksObject.isCompleted) {
-//         // Make finish button
-//     }
-// }
+  // Add complete button, delet button, edit button, and uncomplete button
+  if (booksObject.isCompleted) {
+        const uncompleteButton = document.createElement("button");
+        uncompleteButton.innerText = "Belum Selesai Dibaca";
 
-// Make delete book button
+        uncompleteButton.addEventListener("click", function () {
+          markAsUncompleted(booksObject.id);
+        });
 
-// Make finish button function
+        itemBooksWrapper.append(uncompleteButton);
+  } else {
+    // Make complete button
+    const completeButton = document.createElement("button");
+    completeButton.setAttribute("data-testid", "bookItemIsCompleteButton");
+    completeButton.innerText = "Selesai Dibaca";
+
+    completeButton.addEventListener("click", function () {
+      markBookAsComplete(booksObject.id);
+    });
+
+    // Make delete book button
+    const deleteButton = document.createElement("button");
+    deleteButton.setAttribute("data-testid", "bookItemDeleteButton");
+    deleteButton.innerText = "Hapus Buku";
+
+    deleteButton.addEventListener("click", function () {
+      markBookToDelete(booksObject.id);
+    });
+
+    //Make edit book button
+    const editButton = document.createElement("button");
+    editButton.innerText = "Edit Buku";
+    editButton.setAttribute("data-testid", "bookItemEditButton");
+
+    editButton.addEventListener("click", function () {
+      bookToEdit(booksObject.id);
+    });
+
+    const buttonWrapper = document.createElement("div");
+    buttonWrapper.append(completeButton, deleteButton, editButton);
+
+    itemBooksWrapper.append(buttonWrapper);
+  }
+
+  return itemBooksWrapper;
+}
+
+// Make complete button function
+function markBookAsComplete(bookId) {
+  const bookTarget = findBook(bookId);
+  
+  if (bookTarget == null) return;
+
+  bookTarget.isCompleted = true;
+  document, dispatchEvent(new Event(RENDER_EVENT));
+}
+
+function findBook(bookId) {
+  for (const bookItem in books) {
+    if (bookItem.id == bookId) {
+      return bookItem;
+    }
+  }
+  return null;
+}
 
 // Make delete button function
 
 // All button activities
 document.addEventListener(RENDER_EVENT, function () {
-  console.log(books);
+  const unreadBooks = document.getElementById("incompleteBookList"); 
+  const readBooks = document.getElementById("completeBookList");
+
+  for (const bookItem of books) {
+    const bookElement = listBooks(bookItem);
+    if (!bookItem.isCompleted) unreadBooks.append(bookElement);
+    else readBooks.append(bookElement);
+  }
 });
