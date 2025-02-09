@@ -6,8 +6,7 @@
     <title>Bookshelf App</title>
 
     <!-- Impor script kamu di sini -->
-    <!-- Lampirkan `defer` jika pemanggilan dilakukan dalam <head> -->
-    <script defer src="main.js"></script>
+     <script src="main.js" type="text/javascript"></script>
   </head>
   <body>
     <header>
@@ -20,7 +19,7 @@
         <form id="bookForm" data-testid="bookForm">
           <div>
             <label for="bookFormTitle">Judul</label>
-            <input type="text" required data-testid="bookFormTitleInput" />
+            <input id="bookFormTitle" type="text" required data-testid="bookFormTitleInput" />
           </div>
           <div>
             <label for="bookFormAuthor">Penulis</label>
