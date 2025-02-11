@@ -1,0 +1,83 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  --main-color: rgb(142, 6, 196);
+  --secondary-color: rgb(105, 3, 145);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+header {
+  font-size: 1.6rem;
+  background-color: var(--main-color);
+  color: white;
+  padding: 1rem;
+}
+
+#inputBooksInformation {
+  color: white;
+  background-color: var(--secondary-color);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: 1.2rem;
+}
+
+#search-book {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  padding: 2.2rem;
+  font-size: 1.2rem;
+  gap: 2rem;
+}
+
+#incomplete-racs {
+    background-color: var(--main-color);
+    padding: 2rem;
+    margin: 2rem;
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+#incompleteBookList {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+#incompleteBookInformation {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+#complete-racs {
+    background-color: var(--main-color);
+    padding: 2rem;
+    margin: 2rem;
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+#completeBookList {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}

@@ -7,6 +7,7 @@
 
     <!-- My Script  -->
     <script src="main.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <header>
@@ -14,7 +15,7 @@
     </header>
 
     <main>
-      <section>
+      <section id="inputBooksInformation">
         <!-- Form Memasukkan Informasi Buku -->
         <h2>Tambah Buku Baru</h2>
         <form id="bookForm" data-testid="bookForm">
@@ -54,13 +55,13 @@
             id="bookFormSubmit"
             type="submit"
             data-testid="bookFormSubmitButton">
-            Masukkan Buku ke rak <span>Belum selesai dibaca</span>
+            Masukkan Buku ke Rak 
           </button>
         </form>
       </section>
 
       <!-- Fitur Pencarian -->
-      <section>
+      <section id="search-book">
         <h2>Cari Buku</h2>
         <form id="searchBook" data-testid="searchBookForm">
           <label for="searchBookTitle">Judul</label>
@@ -78,11 +79,11 @@
       </section>
 
       <!-- Rak Belum Dibaca -->
-      <section>
+      <section id="incomplete-racs">
         <h2>Belum selesai dibaca</h2>
 
         <div id="incompleteBookList" data-testid="incompleteBookList">
-          <div data-bookid="123123123" data-testid="bookItem">
+          <div  data-bookid="123123123" data-testid="bookItem" >
             <h3 data-testid="bookItemTitle"></h3>
             <p data-testid="bookItemAuthor"></p>
             <p data-testid="bookItemYear"></p>
@@ -96,7 +97,7 @@
       </section>
 
       <!-- Rak Sudah Dibaca -->
-      <section>
+      <section id="complete-racs">
         <h2>Selesai dibaca</h2>
 
         <div id="completeBookList" data-testid="completeBookList">

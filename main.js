@@ -87,7 +87,7 @@ function generateBookObject(id, title, author, year, isCompleted) {
 function listBooks(booksObject) {
   const titleBooks = document.createElement("h3");
   titleBooks.setAttribute("data-testid", "bookItemTitle");
-  titleBooks.innerText = `Judul ${booksObject.title}`;
+  titleBooks.innerText = `Judul: ${booksObject.title}`;
 
   const authorBooks = document.createElement("p");
   authorBooks.setAttribute("data-testid", "bookItemAuthor");
