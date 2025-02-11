@@ -1,12 +1,12 @@
 const books = [];
 const RENDER_EVENT = "render=books";
-const EVENT_SAVED = 'books-saved';
-const KEY_VALUE = 'books_key';
+const EVENT_SAVED = "books-saved";
+const KEY_VALUE = "books_key";
 
 // Check if browser support local storage
 function storageExisted() {
-  if (typeof (Storage) === undefined) {
-    alert('Browser not support local storage');
+  if (typeof Storage === undefined) {
+    alert("Browser not support local storage");
     return false;
   }
   return true;
@@ -52,13 +52,14 @@ function addBooks() {
   const textBook = document.getElementById("bookFormTitle").value;
   const authorBook = document.getElementById("bookFormAuthor").value;
   const yearBook = document.getElementById("bookFormYear").value;
+  const checkBox = document.getElementById("bookFormIsComplete").checked;
   const generationID = generateID();
   const booksObject = generateBookObject(
     generationID,
     textBook,
     authorBook,
     yearBook,
-    false
+    checkBox
   );
   books.push(booksObject);
 
@@ -131,7 +132,7 @@ function listBooks(booksObject) {
     const buttonWrapper = document.createElement("div");
     buttonWrapper.append(uncompleteButton, deleteButton, editButton);
 
-    itemBooksWrapper.append(buttonWrapper); 
+    itemBooksWrapper.append(buttonWrapper);
   } else {
     // Make complete button
     const completeButton = document.createElement("button");
