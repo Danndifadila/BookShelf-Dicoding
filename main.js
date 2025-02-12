@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function addBooks() {
   const textBook = document.getElementById("bookFormTitle").value;
   const authorBook = document.getElementById("bookFormAuthor").value;
-  const yearBook = document.getElementById("bookFormYear").value;
+  const yearBook = parseInt(document.getElementById("bookFormYear").value);
   const checkBox = document.getElementById("bookFormIsComplete").checked;
   const generationID = generateID();
   const booksObject = generateBookObject(
@@ -73,13 +73,13 @@ function generateID() {
 }
 
 // Adding books to an object
-function generateBookObject(id, title, author, year, isCompleted) {
+function generateBookObject(id, title, author, year, isComplete) {
   return {
     id,
     title,
     author,
     year,
-    isCompleted,
+    isComplete,
   };
 }
 
@@ -103,7 +103,7 @@ function listBooks(booksObject) {
   itemBooksWrapper.append(titleBooks, authorBooks, yearBooks);
 
   // Add complete button, delet button, edit button, and uncomplete button
-  if (booksObject.isCompleted) {
+  if (booksObject.isComplete) {
     const uncompleteButton = document.createElement("button");
     uncompleteButton.innerText = "Belum Selesai Dibaca";
 
@@ -176,7 +176,7 @@ function markBookAsComplete(bookId) {
 
   if (bookTarget == null) return;
 
-  bookTarget.isCompleted = true;
+  bookTarget.isComplete = true;
   document.dispatchEvent(new Event(RENDER_EVENT));
   saveAction();
 }
@@ -187,7 +187,7 @@ function markAsUncompleted(bookId) {
 
   if (bookTarget == null) return;
 
-  bookTarget.isCompleted = false;
+  bookTarget.isComplete = false;
   document.dispatchEvent(new Event(RENDER_EVENT));
   saveAction();
 }
@@ -231,7 +231,7 @@ document.addEventListener(RENDER_EVENT, function () {
 
   for (const bookItem of books) {
     const bookElement = listBooks(bookItem);
-    if (!bookItem.isCompleted) unreadBooks.append(bookElement);
+    if (!bookItem.isComplete) unreadBooks.append(bookElement);
     else readBooks.append(bookElement);
   }
 });
